@@ -3,6 +3,7 @@ import java.util.regex.*;
 import java.util.AbstractCollection;
 
 public class encrypt {
+//  Generates normal caesar cipher
     public static String shift(String str, int offset) {
     	String nstr = "";
     	int num = 0;
@@ -14,6 +15,7 @@ public class encrypt {
     	return nstr;
     }
 
+//  Generates an atbash cipher and then applies a caesarg cipher after
     public static String atbash(String str, int offset) {
         String nstr = "";
         int num = 0;
@@ -25,7 +27,37 @@ public class encrypt {
         return nstr;
     }
 
-   
+//  some code borrowed from http://www.java-forums.org/new-java/17317-very-simple-encryption.html
+//  Generates a random cipher
+    public static String rando(String str) {
+        Random gen = new Random();
+        char[] chars = new char[] { 32, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+        char[] randList = new char[27];
+
+        int replaced = 0;
+        while(replaced < 27)
+        {
+            int num = gen.nextInt(27);
+            if(randList[num] == '\u0000')
+            {
+                randList[num] = chars[replaced];
+                replaced++;
+            }
+        }
+
+        String nstr = "";
+        int numo = 0;
+        for (int i = 0; i < str.length(); i++) {
+            numo = (str.charAt(i) == 32) ? 64 : str.charAt(i);
+            numo = (numo - 'A' + 1) % 27;
+            nstr += randList[numo];
+        }
+        return nstr;
+
+    }
+
+
+
     public static void main(String args[]) {
         
         File toencrypt = new File("toencrypt.txt");
