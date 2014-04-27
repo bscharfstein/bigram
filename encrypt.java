@@ -3,16 +3,19 @@ import java.util.regex.*;
 import java.util.AbstractCollection;
 
 public class encrypt {
+
+//  For all of these ciphers the capitalization invariant must
+//  be satisfied or else they break. We might want to fix that
 //  Generates normal caesar cipher
     public static String shift(String str, int offset) {
-    	String nstr = "";
-    	int num = 0;
-    	for (int i = 0; i < str.length(); i++) {
-    		num = (str.charAt(i)==32) ? 64 : str.charAt(i);
-			num = (num - 'A' + 1 + offset) % 27 + 'A' - 1;
-			nstr += (num == 64) ? (char)32 : (char)num;
-    	}
-    	return nstr;
+        String nstr = "";
+        int num = 0;
+        for (int i = 0; i < str.length(); i++) {
+            num = (str.charAt(i)==32) ? 64 : str.charAt(i);
+            num = (num - 'A' + 1 + offset) % 27 + 'A' - 1;
+            nstr += (num == 64) ? (char)32 : (char)num;
+        }
+        return nstr;
     }
 
 //  Generates an atbash cipher and then applies a caesarg cipher after
@@ -70,7 +73,7 @@ public class encrypt {
         File toencrypt = new File("toencrypt.txt");
         
     	try {
-			BufferedWriter out1 = new BufferedWriter(new FileWriter("CleanNotEncrypted.txt"));
+            BufferedWriter out1 = new BufferedWriter(new FileWriter("CleanNotEncrypted.txt"));
 			BufferedWriter out2 = new BufferedWriter(new FileWriter("CleanEncrypted.txt"));
 			BufferedReader input = new BufferedReader(new FileReader(toencrypt));
         
