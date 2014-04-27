@@ -52,6 +52,13 @@ public class encrypt {
             numo = (numo - 'A' + 1) % 27;
             nstr += randList[numo];
         }
+//        **for checking**
+//        System.out.println(nstr);
+//
+//        for(int i = 0; i < 27; i++)
+//        {
+//            System.out.println(chars[i] + " " + cryptList[i]);
+//        }
         return nstr;
 
     }
