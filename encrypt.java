@@ -8,10 +8,21 @@ public class encrypt {
     	int num = 0;
     	for (int i = 0; i < str.length(); i++) {
     		num = (str.charAt(i)==32) ? 64 : str.charAt(i);
-			num = (num - 64 + offset)%27 + 64;
+			num = (num - 'A' + 1 + offset) % 27 + 'A' - 1;
 			nstr += (num == 64) ? (char)32 : (char)num;
     	}
     	return nstr;
+    }
+
+    public static String atbash(String str, int offset) {
+        String nstr = "";
+        int num = 0;
+        for (int i = 0; i < str.length(); i++) {
+            num = (str.charAt(i)==32) ? 64 : str.charAt(i);
+            num = (-1 * (num - 'A' + 1) + 27 + offset ) % 27 + 'A' - 1;
+            nstr += (num == 64) ? (char)32 : (char)num;
+        }
+        return nstr;
     }
 
    
@@ -35,6 +46,7 @@ public class encrypt {
             }
             
             out1.write(buffer);
+//          shifts text by 1. Need to make this user customizable
             out2.write(shift(buffer, 1));
     /*        
             int j = 0;
