@@ -67,7 +67,15 @@ public class encrypt {
 
     }
 
-
+    public static String clean(String str) {
+        String buffer = "";
+        str = str.toUpperCase().trim();
+        str = str.replaceAll("[^A-Z ]", " ");
+        str = str.replaceAll("^\\s+", "");
+        str = str.replaceAll("\\s+", " ");
+        buffer += str;
+        return buffer;
+    }
 
     public static void main(String args[]) {
         
