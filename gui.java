@@ -125,10 +125,9 @@ public class Gui extends javax.swing.JDialog {
 
     private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-        String eText = encrypt.clean(textToEncrypt.getText());
-        String newText = encrypt.atbash(eText, 1);
+        String eText = encrypt.atbash(textToEncrypt.getText(), 1);
         encryptedText.setText("");
-        encryptedText.append(newText);
+        encryptedText.append(eText);
     }                                        
 
     /**
