@@ -45,6 +45,8 @@ public class Gui extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         textToEncrypt.setText("textToEncrypt");
+        textToEncrypt.setLineWrap(true);
+        textToEncrypt.setWrapStyleWord(true);
 
         decryptButton.setText("Decrypt");
         decryptButton.addActionListener(new java.awt.event.ActionListener() {
@@ -54,6 +56,9 @@ public class Gui extends javax.swing.JDialog {
         });
 
         textToDecrypt.setText("textToDecrypt");
+        textToDecrypt.setLineWrap(true);
+        textToDecrypt.setWrapStyleWord(true);
+
 
         encryptButton.setText("Encrypt");
         encryptButton.addActionListener(new java.awt.event.ActionListener() {
@@ -64,11 +69,15 @@ public class Gui extends javax.swing.JDialog {
 
         encryptedText.setColumns(20);
         encryptedText.setRows(5);
+        encryptedText.setLineWrap(true);
+        encryptedText.setWrapStyleWord(true);
         encryptedText.setEditable(false);
         jScrollPane1.setViewportView(encryptedText);
 
         decryptedText.setColumns(20);
         decryptedText.setRows(5);
+        decryptedText.setLineWrap(true);
+        decryptedText.setWrapStyleWord(true);
         decryptedText.setEditable(false);
         jScrollPane2.setViewportView(decryptedText);
 
