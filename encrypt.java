@@ -9,6 +9,7 @@ public class encrypt {
 //  be satisfied or else they break. We might want to fix that
 //  Generates normal caesar cipher
     public static String shift(String str, int offset) {
+        str = clean(str);
         String nstr = "";
         int num = 0;
         for (int i = 0; i < str.length(); i++) {
@@ -21,6 +22,7 @@ public class encrypt {
 
 //  Generates an atbash cipher and then applies a caesar cipher after
     public static String atbash(String str, int offset) {
+        str = clean(str);
         String nstr = "";
         int num = 0;
         for (int i = 0; i < str.length(); i++) {
@@ -34,6 +36,7 @@ public class encrypt {
 //  some code borrowed from http://www.java-forums.org/new-java/17317-very-simple-encryption.html
 //  Generates a random cipher
     public static String rando(String str) {
+        str = clean(str);
         Random gen = new Random();
         char[] chars = new char[] { 32, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
         char[] randList = new char[27];
