@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.regex.*;
 import java.util.AbstractCollection;
+import java.util.Random;
 
 public class encrypt {
 
@@ -18,7 +19,7 @@ public class encrypt {
         return nstr;
     }
 
-//  Generates an atbash cipher and then applies a caesarg cipher after
+//  Generates an atbash cipher and then applies a caesar cipher after
     public static String atbash(String str, int offset) {
         String nstr = "";
         int num = 0;

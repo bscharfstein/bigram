@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 7d59eceb9d7607306ed782a6950cb56c77026658
 /**
  *
- * @author alanwang and Ben Scharfstein and Evan Brown
+ * @author Alan Wang and Ben Scharfstein and Evan Brown
  */
+
+import java.util.Random;
+
 public class Gui extends javax.swing.JDialog {
 
     /**
@@ -31,43 +31,43 @@ public class Gui extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        textToEncrypt = new javax.swing.JTextField();
+        decryptButton = new javax.swing.JButton();
+        textToDecrypt = new javax.swing.JTextField();
+        encryptButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        encryptedText = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        decryptedText = new javax.swing.JTextArea();
         jComboBox1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTextField1.setText("jTextField1");
+        textToEncrypt.setText("textToEncrypt");
 
-        jButton1.setText("Decrypt");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        decryptButton.setText("Decrypt");
+        decryptButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                decryptButtonActionPerformed(evt);
             }
         });
 
-        jTextField2.setText("jTextField1");
+        textToDecrypt.setText("textToDecrypt");
 
-        jButton2.setText("Encrypt");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        encryptButton.setText("Encrypt");
+        encryptButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                encryptButtonActionPerformed(evt);
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        encryptedText.setColumns(20);
+        encryptedText.setRows(5);
+        jScrollPane1.setViewportView(encryptedText);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        decryptedText.setColumns(20);
+        decryptedText.setRows(5);
+        jScrollPane2.setViewportView(decryptedText);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -80,16 +80,16 @@ public class Gui extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2))
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(encryptButton))
+                    .addComponent(textToEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(textToDecrypt, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                    .addComponent(decryptButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -97,12 +97,12 @@ public class Gui extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textToEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textToDecrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
+                    .addComponent(decryptButton)
+                    .addComponent(encryptButton)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -114,12 +114,17 @@ public class Gui extends javax.swing.JDialog {
         pack();
     }// </editor-fold>                        
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
+        // Random rand = new Random();
+        // int randomNum = rand.nextInt((26 - 0) + 1) + 0;
+
     }                                        
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
+        String eText = encrypt.atbash(textToEncrypt.getText(), 1);
+        encryptedText.append(eText);
     }                                        
 
     /**
@@ -165,14 +170,14 @@ public class Gui extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify                     
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton decryptButton;
+    private javax.swing.JButton encryptButton;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextArea encryptedText;
+    private javax.swing.JTextArea decryptedText;
+    private javax.swing.JTextField textToEncrypt;
+    private javax.swing.JTextField textToDecrypt;
     // End of variables declaration                   
 }
