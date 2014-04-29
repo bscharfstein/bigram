@@ -4,9 +4,13 @@
  * and open the template in the editor.
  */
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7d59eceb9d7607306ed782a6950cb56c77026658
 /**
  *
- * @author alanwang
+ * @author alanwang and Ben Scharfstein and Evan Brown
  */
 public class Gui extends javax.swing.JDialog {
 
@@ -112,7 +116,6 @@ public class Gui extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-        
     }                                        
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
