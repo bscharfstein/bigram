@@ -11,7 +11,7 @@
  */
 
 import java.util.Random;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 public class Gui extends javax.swing.JDialog {
 
@@ -32,9 +32,9 @@ public class Gui extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        textToEncrypt = new javax.swing.JTextField();
+        textToEncrypt = new javax.swing.JTextArea();
         decryptButton = new javax.swing.JButton();
-        textToDecrypt = new javax.swing.JTextField();
+        textToDecrypt = new javax.swing.JTextArea();
         encryptButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         encryptedText = new javax.swing.JTextArea();
@@ -180,7 +180,7 @@ public class Gui extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea encryptedText;
     private javax.swing.JTextArea decryptedText;
-    private javax.swing.JTextField textToEncrypt;
-    private javax.swing.JTextField textToDecrypt;
+    private javax.swing.JTextArea textToEncrypt;
+    private javax.swing.JTextArea textToDecrypt;
     // End of variables declaration                   
 }
