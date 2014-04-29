@@ -11,6 +11,7 @@
  */
 
 import java.util.Random;
+import javax.swing.JTextField;
 
 public class Gui extends javax.swing.JDialog {
 
@@ -39,7 +40,7 @@ public class Gui extends javax.swing.JDialog {
         encryptedText = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         decryptedText = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox();
+        cipherSelect = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -63,13 +64,15 @@ public class Gui extends javax.swing.JDialog {
 
         encryptedText.setColumns(20);
         encryptedText.setRows(5);
+        encryptedText.setEditable(false);
         jScrollPane1.setViewportView(encryptedText);
 
         decryptedText.setColumns(20);
         decryptedText.setRows(5);
+        decryptedText.setEditable(false);
         jScrollPane2.setViewportView(decryptedText);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cipherSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Caesar", "Atbash", "Rando"}));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,7 +81,7 @@ public class Gui extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cipherSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(encryptButton))
                     .addComponent(textToEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -103,7 +106,7 @@ public class Gui extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(decryptButton)
                     .addComponent(encryptButton)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cipherSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
@@ -116,15 +119,16 @@ public class Gui extends javax.swing.JDialog {
 
     private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-        // Random rand = new Random();
-        // int randomNum = rand.nextInt((26 - 0) + 1) + 0;
+
 
     }                                        
 
     private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-        String eText = encrypt.atbash(textToEncrypt.getText(), 1);
-        encryptedText.append(eText);
+        String eText = encrypt.clean(textToEncrypt.getText());
+        String newText = encrypt.atbash(eText, 1);
+        encryptedText.setText("");
+        encryptedText.append(newText);
     }                                        
 
     /**
@@ -172,7 +176,7 @@ public class Gui extends javax.swing.JDialog {
     // Variables declaration - do not modify                     
     private javax.swing.JButton decryptButton;
     private javax.swing.JButton encryptButton;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox cipherSelect;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea encryptedText;
