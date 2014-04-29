@@ -43,6 +43,65 @@ public class decrypt {
     	return (char)((c==0) ? 32 : c + 'A' - 1);
     }
     
+    public static String decrypt(String line) {
+    	/* Run the algorithm to build the decrypt array */
+    	int maxk = 50;
+		for (int k = 0; k < maxk; k++) {
+			for (int i = 0; i < 27; i++) {
+				for(int j = 0; j<27; j++) {
+					counts[i][j] = 0;
+				}
+			}
+			double totalprob = 0;
+				
+			for (int start = 0, len = line.length(); start < len; start += 100) {                    	
+				totalprob += fbpass(convert(line.substring(start, Math.min(len, start+100))));
+			}	
+					
+			double totalcount;
+			for (int i = 0; i < 27; i++) {
+				totalcount = 0;
+				for (int j = 0; j < 27; j++) {
+					totalcount += counts[i][j];
+				}
+				
+				for (int j = 0; j < 27; j++) {
+					//System.out.println("(" + j + ", " + i + "):\t" + counts[j][i]);
+					emit[i][j] = counts[i][j] / totalcount; 
+				}
+			}
+				
+			//threshold
+			double thresh = 1.0 - (.5*k)/(double)maxk;
+			for (int i = 0; i < 27; i++) {
+				for(int j = 0; j < 27; j++) {
+					if(emit[i][j] > thresh) {
+						for (int m = 0; m < 27; m++) {
+							emit[i][m] = 0;
+							emit[m][j] = 0;
+						}
+						emit[i][j]=1;
+						decryptArr[j] = i;
+					}
+				}
+			}
+			
+			for (int i = 0; i < 27; i++) {
+				double x = 0;
+				for (int j = 0; j < 27; j++) { x += emit[i][j]; } 
+				for (int j = 0; j < 27; j++) { emit[i][j] /= x; }
+			}
+			//System.out.println(k + ":\t" + totalprob);
+		}
+		
+		/*Decrypt the string using the array, building a string to return*/
+		String decryptedLine = "";
+		for(int i = 0; i < line.length(); i++) {
+			decryptedLine += deconvert((char) decryptArr[(int) convert(line.charAt(i))]);
+		}
+		return decryptedLine;
+    }
+        
     public static double fbpass(String line) {
     	//forward pass
     	double[][] ftr = new double[27][line.length()];
@@ -269,13 +328,15 @@ public class decrypt {
     	//System.exit(0);
     	
 		File encrypted = new File(ENCRYPTED_FILE);
+		String decryptedLine = "";
 		try {
 			BufferedReader enc = new BufferedReader(new FileReader(encrypted));
 			String line = "";
 			
 			line = enc.readLine();
 			//System.out.println(line);
-						
+			decryptedLine = decrypt(line);
+			/*			
 			int maxk = 50;
 			for (int k = 0; k < maxk; k++) {
 				for (int i = 0; i < 27; i++) for(int j = 0; j<27; j++)	counts[i][j] = 0;
@@ -324,6 +385,8 @@ public class decrypt {
     			//System.out.println(k + ":\t" + totalprob);
     			
     		}
+    		*/
+    		
     		//printEProbs();
 			enc.close();
 		} catch (FileNotFoundException ex) {
@@ -340,11 +403,13 @@ public class decrypt {
     		BufferedReader in = new BufferedReader(new FileReader(encrypted));
     		
     		//printDecryptArr();
-    		
+    		out.write(decryptedLine);
+    		/*
     		String line;
 			while ((line = in.readLine()) != null) { 
 				//System.out.println(deconvert(line));
 				char nchar;
+				
 				for(int i = 0; i < line.length(); i++) {
 					//nchar = deconvert((char) decryptArr[(int)convert(line.charAt(i))]);
 					nchar = (char) decryptArr[(int) convert(line.charAt(i))];
@@ -353,6 +418,7 @@ public class decrypt {
 				}
 				break;
 			}
+			*/
 			out.close();
 			in.close();
 		} catch (Exception e) {
