@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.regex.*;
 import java.util.AbstractCollection;
 
-public class decrypt {
+public class Decrypt {
 	static String UNIGRAM_FILE = "unigrams.txt";
 	static String BIGRAM_FILE = "bigrams.txt";
 	
@@ -106,8 +106,8 @@ public class decrypt {
     	//forward pass
     	double[][] ftr = new double[27][line.length()];
     	
-    	for (int i = 0; i < 27; i++) { 
-    		ftr[i][0] = uProbs[i]*emit[i][line.charAt(0)]; 
+    	for (int i = 0; i < 27; i++) {
+            ftr[i][0] = uProbs[i]*emit[i][line.charAt(0)];
     	}
     	
         for (int i = 1, len = line.length(); i < len; i++) {

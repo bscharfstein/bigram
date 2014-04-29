@@ -124,20 +124,19 @@ public class Gui extends javax.swing.JDialog {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>
 
-    private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+    private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        String dText = Decrypt.decrypt(textToDecrypt.getText());
+        decryptedText.setText("");
+        decryptedText.append(dText);
+    }
 
-
-    }                                        
-
-    private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-        String eText = encrypt.atbash(textToEncrypt.getText(), 1);
+    private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        String eText = encrypt.shift(textToEncrypt.getText(), 1);
         encryptedText.setText("");
         encryptedText.append(eText);
-    }                                        
+    }
 
     /**
      * @param args the command line arguments
