@@ -44,6 +44,9 @@ public class Decrypt {
     }
     
     public static String decrypt(String line) {
+    	/*initialize the emission probabilities*/
+    	initEmits(line);
+    
     	/* Run the algorithm to build the decrypt array */
     	int maxk = 50;
 		for (int k = 0; k < maxk; k++) {
@@ -53,7 +56,7 @@ public class Decrypt {
 				}
 			}
 			double totalprob = 0;
-				
+			//System.out.println("len: " + line.length());
 			for (int start = 0, len = line.length(); start < len; start += 100) {                    	
 				totalprob += fbpass(convert(line.substring(start, Math.min(len, start+100))));
 			}	
@@ -99,6 +102,7 @@ public class Decrypt {
 		for(int i = 0; i < line.length(); i++) {
 			decryptedLine += deconvert((char) decryptArr[(int) convert(line.charAt(i))]);
 		}
+		System.out.println(decryptedLine);
 		return decryptedLine;
     }
         
@@ -107,7 +111,8 @@ public class Decrypt {
     	double[][] ftr = new double[27][line.length()];
     	
     	for (int i = 0; i < 27; i++) {
-            ftr[i][0] = uProbs[i]*emit[i][line.charAt(0)];
+    		//System.out.println("i: " + (int) line.charAt(0));
+    		ftr[i][0] = uProbs[i]*emit[i][line.charAt(0)];
     	}
     	
         for (int i = 1, len = line.length(); i < len; i++) {
@@ -153,13 +158,13 @@ public class Decrypt {
     	return Math.log(fpass);
     } 
     
-    public static void initEmits(String ENCRYPTED_FILE) {
+    public static void initEmits(File ENCRYPTED_FILE) {
     	BufferedReader reader;
     	double[] dirtyProbs = new double[27];
     	long nchar = 0;
     	
 		try {
-			 reader = new BufferedReader(new FileReader(new File(ENCRYPTED_FILE)));
+			 reader = new BufferedReader(new FileReader(ENCRYPTED_FILE));
         
         	for (int j = 0; j < dirtyProbs.length; j++) {
            	     dirtyProbs[j] = 0;
@@ -173,6 +178,56 @@ public class Decrypt {
 				}
 			}
 		reader.close();
+		} catch (Exception e) {
+        	System.err.println("Error: " + e.getMessage());
+        }		
+        
+		//normalize from counts into probabilities
+		for (int i = 0; i < 27; i++) {
+			dirtyProbs[i] /= nchar;
+		}
+		
+		double [][] diff = new double[27][27];
+		double avgSquareSum = 0;
+		double var = 0;
+		for (int i = 0; i < 27; i++) {
+			for (int j = 0; j < 27; j++) {
+				diff[i][j] = Math.abs(dirtyProbs[i] - uProbs[j]) + Math.abs(dirtyProbs[j] - uProbs[i]);
+				avgSquareSum += (diff[i][j]*diff[i][j]);
+			}
+		}
+		avgSquareSum /= 27*27;
+		var = avgSquareSum;
+		
+		//set probabilities
+		for (int i = 0; i < 27; i++) {
+			double x = 0;
+			for (int j = 0; j < 27; j++) {
+				double y = diff[i][j];
+				x += (emit[i][j] = Math.exp(-y*y/(2*var)));
+			}
+			
+			for (int j = 0; j < 27; j++) {
+				emit[i][j] /= x;
+			}
+		}
+    }
+    
+     public static void initEmits(String line) {
+    	BufferedReader reader;
+    	double[] dirtyProbs = new double[27];
+    	long nchar = 0;
+    	
+		try {
+        	//Initialize all probabilities from the encrypted string to 0
+        	for (int j = 0; j < dirtyProbs.length; j++) {
+           	     dirtyProbs[j] = 0;
+        	} 
+		
+			for (int i = 0, len = line.length(); i < len; i++) {
+				dirtyProbs[(line.charAt(i)==32) ? 0 : line.charAt(i)-64]++;
+				nchar++;
+			}
 		} catch (Exception e) {
         	System.err.println("Error: " + e.getMessage());
         }		
@@ -320,7 +375,7 @@ public class Decrypt {
     	
     	//System.out.println("SIZE " + args.length);
         readUnigramsAndBigrams();
-    	initEmits(ENCRYPTED_FILE);
+    	//initEmits(new File(ENCRYPTED_FILE));
     	
     	//DEbuggIng
     	//printEProbs();
@@ -334,8 +389,8 @@ public class Decrypt {
 			String line = "";
 			
 			line = enc.readLine();
-			//System.out.println(line);
 			decryptedLine = decrypt(line);
+			//System.out.println(decryptedLine);
 			/*			
 			int maxk = 50;
 			for (int k = 0; k < maxk; k++) {
