@@ -175,12 +175,12 @@ public class Gui extends javax.swing.JDialog {
         for (int i = 0; i < 50; i++) {
             String toPrint = decryptions[i];
             if (toPrint == "") break;
-            if (toPrint.replaceAll("^\\s+", "").replaceAll("\\s+", "") != "") {
+            if (toPrint != " ") {
                 decryptedText.setText(toPrint);
                 decryptedText.update(decryptedText.getGraphics());
                 decryptedText.setCaretPosition(0);
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(500);
                 }
                 catch(InterruptedException ex) {
                     Thread.currentThread().interrupt();
