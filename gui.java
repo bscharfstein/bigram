@@ -13,6 +13,12 @@
 import java.util.Random;
 import javax.swing.JTextArea;
 import java.awt.*;
+import java.io.*;
+import java.util.regex.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.Scanner;
 
 public class Gui extends javax.swing.JDialog {
 
@@ -50,9 +56,16 @@ public class Gui extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        String merica = "";
+        try{
+            merica = new Scanner( new File("constitution.txt") ).useDelimiter("\\A").next();
+        } catch (Exception e) {
+            merica = "Text To Encrypt";
+        }
+
         textToEncrypt.setColumns(40);
         textToEncrypt.setRows(20);
-        textToEncrypt.setText("textToEncrypt");
+        textToEncrypt.setText(merica);
         textToEncrypt.setLineWrap(true);
         textToEncrypt.setWrapStyleWord(true);
         jScrollPane3.setViewportView(textToEncrypt);
@@ -66,7 +79,7 @@ public class Gui extends javax.swing.JDialog {
 
         textToDecrypt.setColumns(40);
         textToDecrypt.setRows(20);
-        textToDecrypt.setText("textToDecrypt");
+        textToDecrypt.setText("Text To Decrypt");
         textToDecrypt.setLineWrap(true);
         textToDecrypt.setWrapStyleWord(true);
         jScrollPane4.setViewportView(textToDecrypt);
@@ -190,7 +203,9 @@ public class Gui extends javax.swing.JDialog {
     }
 
     private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        String eText = ""; // Encrypt.shift(textToEncrypt.getText(), 1);
+
+        String eText = ""; 
+
         int v = 0;
         try{
             String comboValue = cipherSelect.getSelectedItem().toString();
