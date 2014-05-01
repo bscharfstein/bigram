@@ -104,6 +104,10 @@ public class Decrypt {
 			
 			//boolean to check if the cipher has been found already
 			boolean allones = true;
+			
+			//boolean to check if none of the cipher has been found
+			boolean noones = true;
+			
 			for (int i = 0; i < 27; i++) {
 				double maxp = -1.0e64;
 				for(int j = 0; j < 27; j++) {
@@ -112,6 +116,7 @@ public class Decrypt {
 						maxp=x;
 					}
 					if(x > thresh) {
+						noones = false;
 						for (int m = 0; m < 27; m++) {
 							emit[i][m] = 0;
 							emit[m][j] = 0;
@@ -125,7 +130,12 @@ public class Decrypt {
 				}
 				//System.out.println(i + ": " + partwayDecryptedArr[i]);
 			}
-			partwayDecryptions[k] = decryptArrayToString(line);
+			if (noones) {
+				partwayDecryptions[k] = " ";
+			}
+			else {
+				partwayDecryptions[k] = decryptArrayToString(line);
+			}
 			//System.exit(0);
 			
 			//if the cipher has been found, exit
@@ -161,7 +171,6 @@ public class Decrypt {
     }
     
     public static String decryptArrayToString(String line) {
-    	System.out.println(line.substring(0, 1000));
     	String decryptedLine = "";
 		for(int i = 0; i < line.length(); i++) {
 			decryptedLine += deconvert((char) decryptArr[(int) convert(line.charAt(i))]);
