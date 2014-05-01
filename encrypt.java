@@ -73,6 +73,8 @@ public class Encrypt {
     public static String clean(String str) {
         String buffer = "";
         str = str.toUpperCase().trim();
+//      keep " ' " as part of the word as opposed to putting a space
+        str = str.replaceAll("[']", "");
         str = str.replaceAll("[^A-Z ]", " ");
         str = str.replaceAll("^\\s+", "");
         str = str.replaceAll("\\s+", " ");
