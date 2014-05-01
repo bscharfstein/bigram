@@ -80,7 +80,6 @@ public class Decrypt {
 				}
 			}
 			double totalprob = 0;
-			//System.out.println("len: " + line.length());
 			for (int start = 0, len = line.length(); start < len; start += 100) {                    	
 				totalprob += fbpass(convert(line.substring(start, Math.min(len, start+100))));
 			}	
@@ -93,7 +92,6 @@ public class Decrypt {
 				}
 				
 				for (int j = 0; j < 27; j++) {
-					//System.out.println("(" + j + ", " + i + "):\t" + counts[j][i]);
 					emit[i][j] = counts[i][j] / totalcount; 
 				}
 			}

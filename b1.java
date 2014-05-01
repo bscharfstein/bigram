@@ -3,6 +3,7 @@ import java.util.regex.*;
 import java.util.AbstractCollection;
 
 public class b1 {
+	//function for printing out the two dimensional bigram array to a given file
     public static void printArray(int[][] array, String txtfile) {
     	try {
     		FileWriter fstream = new FileWriter(txtfile);
@@ -18,10 +19,11 @@ public class b1 {
            		out.write("\n");
         	}
         	out.close();
-        }catch (Exception e) {
+        } catch (Exception e) {
         	System.err.println("Error: " + e.getMessage());
         }
     }
+    
     public static void printArray(int[] array, String txtfile) {
    		 try {
     		FileWriter fstream = new FileWriter(txtfile);
@@ -32,15 +34,13 @@ public class b1 {
            		out.write((float)array[i]/nChar + " ");
         	}
         	out.close();
-        }catch (Exception e) {
+        } catch (Exception e) {
         	System.err.println("Error: " + e.getMessage());
         }
     }
     
     public static void main(String args[]) {
-        
         File dir = new File("Text");
-        //File dir = new File(".");
         File [] files = dir.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -48,6 +48,7 @@ public class b1 {
             }
         });
 
+		//create and initialize two dimensional array of zeroes
         int[][] bigrams = new int[27][27];
         for (int i = 0; i < bigrams.length; i++) {
             for (int j = 0; j < bigrams[0].length; j++) {
@@ -85,9 +86,6 @@ public class b1 {
                     	unigrams[(line.charAt(line.length()-1)==32) ? 0 :line.charAt(line.length()-1)-64]++;
                     	nChar += line.length();
                     }
-                    
-                    
-      	            //if (nChar<12000 && line.length()>0) {System.out.println(line);}
                 }
             } catch (FileNotFoundException ex) {
                 System.out.println(ex.getMessage() + "unable to open file" + txtfile);
@@ -98,8 +96,6 @@ public class b1 {
             
             printArray(bigrams, "bigrams.txt");
             printArray(unigrams, "unigrams.txt");
-            System.out.println("nChar="+nChar);
-
         }
     }
 }
