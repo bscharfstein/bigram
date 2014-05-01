@@ -4,9 +4,10 @@ import java.util.AbstractCollection;
 
 public class Decrypt {
 	//File from which we read in the unigram probabilities
-	static String UNIGRAM_FILE = "unigrams.txt";
+	public static String UNIGRAM_FILE = "unigrams.txt";
+	
 	//File from which we read in the bigram probabilities
-	static String BIGRAM_FILE = "bigrams.txt";
+	public static String BIGRAM_FILE = "bigrams.txt";
 	
 	//Array for storing bigram probabilities
     static double[][] bProbs = new double[27][27];
@@ -19,9 +20,12 @@ public class Decrypt {
     
     //Array for storing the counts from which we re-estimate the emission probabilities
     static double[][] counts = new double[27][27];
-    
+
     //Array for storing the final decryption key
     static int[] decryptArr = new int[27]; 
+    
+	//Max number of passes we want to make (gets updated to the number of passes actually run)
+	public static int num_passes = 50;
     
     /* function to translate a letter from its value in ASCII to   
      * its corresponding value from 1 to 26, with spaces going to  
@@ -34,7 +38,6 @@ public class Decrypt {
 	public static String convert(String str) {
     	String nstr = "";
     	for (int i = 0, len = str.length(); i < len; i++) { nstr += convert(str.charAt(i)); }
-       // System.out.println(nstr);
     	return nstr;
     }
     
@@ -55,27 +58,23 @@ public class Decrypt {
     }
     
     /*Function that takes an encrypted line and returns the decrypted output*/
-    public static String[] decrypt(String line) {
+    public static String[] decrypt(String line, boolean inCL) {
     	
     	/*Read in the unigram and bigram probabilities from the files*/
         readUnigramsAndBigrams();
     	
     	/*initialize the emission probabilities*/
     	initEmits(line);
-
-    	/*** Run the algorithm to build the decrypt array ***/
-    	
-    	//variable for how many times you want to run the algorithm (it gets pretty close after 
-    	int maxk = 50;
-    	int last = 0;
     	
     	//String array for storing partially decrypted strings (for the GUI)
     	//If it ends early we will indicate this with the empty string 
-    	String[] partwayDecryptions = new String[maxk];
+    	String[] partwayDecryptions = new String[num_passes];
     	
-		for (int k = 0; k < maxk; k++) {
+    	
+    	/*** Run the algorithm to build the decrypt array ***/
+		for (int k = 0; k < num_passes; k++) {
 			for (int i = 0; i < 27; i++) {
-				decryptArr[i] = 0;
+				decryptArr[i] = -1;
 				for(int j = 0; j<27; j++) {
 					counts[i][j] = 0;
 				}
@@ -100,7 +99,7 @@ public class Decrypt {
 			}
 				
 			//threshold
-			double thresh = 1.0 - (.8*k)/(double)maxk;
+			double thresh = 1.0 - (.8*k)/(double)num_passes;
 			
 			//boolean to check if the cipher has been found already
 			boolean allones = true;
@@ -130,7 +129,8 @@ public class Decrypt {
 				}
 				//System.out.println(i + ": " + partwayDecryptedArr[i]);
 			}
-			if (noones) {
+			
+			if (noones && !inCL) {
 				partwayDecryptions[k] = " ";
 			}
 			else {
@@ -139,9 +139,9 @@ public class Decrypt {
 			//System.exit(0);
 			
 			//if the cipher has been found, exit
-			if (allones && k != maxk - 1) {
+			if (allones && k != num_passes - 1) {
 				partwayDecryptions[k+1] = "";
-				last = k;
+				num_passes = k+1;
 				break;
 			}		
 			
@@ -151,130 +151,40 @@ public class Decrypt {
 				for (int j = 0; j < 27; j++) { x += emit[i][j]; } 
 				for (int j = 0; j < 27; j++) { emit[i][j] /= x; }
 			}
-			/*System.out.println(partwayDecryptions[k].substring(0, 1000));
-			System.out.println("Pass #" + k);
-			try {
-    			Thread.sleep(100);
-			} catch(InterruptedException ex) {
-    			Thread.currentThread().interrupt();
-			}*/
+			
+			/* Print the following lines if you're running the program on the command line  *
+			 * and want to see the emission probabilities update 							*/
+			if (inCL) {	
+				System.out.println("Pass #" + k);
+				printEProbs(true);
+				System.out.println(partwayDecryptions[k].substring(0, 1000));
+				System.out.println();
+			}
 		}
-		
-		
-		/*Decrypt the string using the array, building a string to return*/
-		String decryptedLine = "";
-		for(int i = 0; i < line.length(); i++) {
-			decryptedLine += deconvert((char) decryptArr[(int) convert(line.charAt(i))]);
-		}
-		//System.out.println("DecryptedLine: " + decryptedLine);
 		return partwayDecryptions;
     }
     
+    /* Function that takes the decrypt Array (decryptArr) in whatever state       *
+     * it's in and uses it to decrypt the line. If the value in the array has not *
+     * yet been found (the emission probability is not sufficiently close to 1),  *
+     * it will print the encrypted character.This is useful for showing the       *
+     * process of decryption 													  */
     public static String decryptArrayToString(String line) {
+    	//System.out.println(line);
     	String decryptedLine = "";
 		for(int i = 0; i < line.length(); i++) {
-            decryptedLine += deconvert((char) decryptArr[(int) convert(line.charAt(i))]);
+			int c = convert(line.charAt(i));
+			//decryptedLine += deconvert((char)decryptArr[c]);
+			if (decryptArr[c] != -1) {
+            	decryptedLine += deconvert((char)decryptArr[c]);
+            } else {
+            	decryptedLine += deconvert((char)c);
+            }
         }
 		//System.out.println("DecryptedLine: " + decryptedLine);
 		return decryptedLine;
     }
-    
-	/*Decrypt function we use when running in the command line		*
-	 *(prints out emission probabilities during each pass through	*/
-    public static String decryptForCL(String line) {
-    	/*Read in the unigram and bigram probabilities from the files*/
-        readUnigramsAndBigrams();
-    	
-    	/*initialize the emission probabilities*/
-    	initEmits(line);
 
-    	/*** Run the algorithm to build the decrypt array ***/
-    	
-    	//variable for how many times you want to run the algorithm (it gets pretty close after 
-    	int maxk = 50;
-		for (int k = 0; k < maxk; k++) {
-			for (int i = 0; i < 27; i++) {
-				decryptArr[i] = 0;
-				for(int j = 0; j<27; j++) {
-					counts[i][j] = 0;
-				}
-			}
-			double totalprob = 0;
-			//System.out.println("len: " + line.length());
-			for (int start = 0, len = line.length(); start < len; start += 100) {                    	
-				totalprob += fbpass(convert(line.substring(start, Math.min(len, start+100))));
-			}	
-					
-			double totalcount;
-			for (int i = 0; i < 27; i++) {
-				totalcount = 0;
-				for (int j = 0; j < 27; j++) {
-					totalcount += counts[i][j];
-				}
-				
-				for (int j = 0; j < 27; j++) {
-					//System.out.println("(" + j + ", " + i + "):\t" + counts[j][i]);
-					emit[i][j] = counts[i][j] / totalcount; 
-				}
-			}
-				
-			//threshold
-			double thresh = 1.0 - (.8*k)/(double)maxk;
-			
-			//boolean to check if the cipher has been found already
-			boolean allones = true;
-			for (int i = 0; i < 27; i++) {
-				double maxp = -1.0e64;
-				for(int j = 0; j < 27; j++) {
-					double x = emit[i][j];
-					if (x>maxp) {
-						maxp=x;
-					}
-					if(x > thresh) {
-						for (int m = 0; m < 27; m++) {
-							emit[i][m] = 0;
-							emit[m][j] = 0;
-						}
-						emit[i][j]=1;
-						decryptArr[j] = i;
-					}
-				}
-				if (maxp < thresh) {
-					allones = false;
-				}
-			}
-			
-			//if the cipher has been found, exit
-			if (allones) {
-				break;
-			}		
-			
-			//normalize the emission probabilities (should add to 1 across the column)
-			for (int i = 0; i < 27; i++) {
-				double x = 0;
-				for (int j = 0; j < 27; j++) { x += emit[i][j]; } 
-				for (int j = 0; j < 27; j++) { emit[i][j] /= x; }
-			}
-			
-			printEProbs();
-			System.out.println("Pass #" + k);
-//			try {
-//    			Thread.d(100);
-//			} catch(InterruptedException ex) {
-//    			Thread.currentThread().interrupt();
-//			}
-			//System.out.println(k + ":\t" + totalprob);
-		}
-		
-		/*Decrypt the string using the array, building a string to return*/
-		String decryptedLine = "";
-		for(int i = 0; i < line.length(); i++) {
-			decryptedLine += deconvert((char) decryptArr[(int) convert(line.charAt(i))]);
-		}
-		//System.out.println("DecryptedLine: " + decryptedLine);
-		return decryptedLine;
-    }   
-     
     public static double fbpass(String line) {
     	//forward pass
     	double[][] ftr = new double[27][line.length()];
@@ -318,8 +228,6 @@ public class Decrypt {
 
     	for (int i = 0; i < 27; i++) {
     		for (int j = 0; j < line.length(); j++) {
-    			//System.out.println("ftr:\t" + ftr[0][j]);
-    			//System.out.println("backtre:\t" + btr[0][j]);
     			counts[i][line.charAt(j)] += ftr[i][j]*btr[i][j]/fpass;
     		}
     	}
@@ -327,62 +235,7 @@ public class Decrypt {
     	return Math.log(fpass);
     } 
     
-    public static void initEmits(File ENCRYPTED_FILE) {
-    	BufferedReader reader;
-    	double[] dirtyProbs = new double[27];
-    	long nchar = 0;
-    	
-		try {
-			 reader = new BufferedReader(new FileReader(ENCRYPTED_FILE));
-        
-        	for (int j = 0; j < dirtyProbs.length; j++) {
-           	     dirtyProbs[j] = 0;
-        	} 
-        
-			String line;
-			while((line = reader.readLine()) != null) {
-				for (int i = 0; i < line.length(); i++) {
-					dirtyProbs[(line.charAt(i)==32)? 0 : line.charAt(i)-64]++;
-					nchar++;
-				}
-			}
-		reader.close();
-		} catch (Exception e) {
-        	System.err.println("Error: " + e.getMessage());
-        }		
-        
-		//normalize from counts into probabilities
-		for (int i = 0; i < 27; i++) {
-			dirtyProbs[i] /= nchar;
-		}
-		
-		double [][] diff = new double[27][27];
-		double avgSquareSum = 0;
-		double var = 0;
-		for (int i = 0; i < 27; i++) {
-			for (int j = 0; j < 27; j++) {
-				diff[i][j] = Math.abs(dirtyProbs[i] - uProbs[j]) + Math.abs(dirtyProbs[j] - uProbs[i]);
-				avgSquareSum += (diff[i][j]*diff[i][j]);
-			}
-		}
-		avgSquareSum /= 27*27;
-		var = avgSquareSum;
-		
-		//set probabilities
-		for (int i = 0; i < 27; i++) {
-			double x = 0;
-			for (int j = 0; j < 27; j++) {
-				double y = diff[i][j];
-				x += (emit[i][j] = Math.exp(-y*y/(2*var)));
-			}
-			
-			for (int j = 0; j < 27; j++) {
-				emit[i][j] /= x;
-			}
-		}
-    }
-    
-     public static void initEmits(String line) {
+    public static void initEmits(String line) {
     	BufferedReader reader;
     	double[] dirtyProbs = new double[27];
     	long nchar = 0;
@@ -432,7 +285,13 @@ public class Decrypt {
 		}
     }
     
-    public static void printEProbs () {
+    /* The following three functions are essentially debugging print functions. *
+     * printEProbs prints the emission probabilities, which we can use to 		*
+     * see whether they are being updated correctly. printDecryptArr functions	*
+     * similarly except with the actual decryption array. printTProbs is for	*
+     * debugging more within the forward backward pass, and prints transition	*
+     * probabilities.															*/
+    public static void printEProbs (boolean onlyPrintMax) {
         String letters = new String("#ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 		for (int i = 0; i < 27; i++) {
 	    	double maxp = -1.0e64;
@@ -441,7 +300,9 @@ public class Decrypt {
 				double x = emit[i][j];
 				if (x>maxp) {maxj=j; maxp=x;}
 	    	}
-	    	//System.out.println(letters.charAt(i)+"->"+letters.charAt(i)+" = "+emit[i][i]);
+	    	if (!onlyPrintMax) {
+	    		System.out.println(letters.charAt(i)+"->"+letters.charAt(i)+" = "+emit[i][i]);
+	    	}
 	    	System.out.println(letters.charAt(i)+"->"+letters.charAt(maxj)+" = "+emit[i][maxj]);
 		}
     }
@@ -457,69 +318,22 @@ public class Decrypt {
         String letters = new String("#ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         System.out.println("Unigram Probs:");
         double sum = 0;
-	for(int i=0; i<27; i++) {
-	    System.out.println(letters.substring(i,i+1)+" "+uProbs[i]);
-	    sum += uProbs[i];
-	}
+		for(int i=0; i<27; i++) {
+			System.out.println(letters.substring(i,i+1)+" "+uProbs[i]);
+			sum += uProbs[i];
+		}
         System.out.println("Sum = "+sum);
         System.out.println("Bigram Probs:");
-	for(int i=0; i<27; i++) {
-            sum = 0;
-	    for (int j=0; j<27; j++) {
-		System.out.println(letters.substring(i,i+1)+letters.substring(j,j+1)+" "+bProbs[i][j]);
-                sum += bProbs[i][j];
-	    }
-        System.out.println("Sum = "+sum);
-	}
+		for(int i=0; i<27; i++) {
+			sum = 0;
+			for (int j=0; j<27; j++) {
+				System.out.println(letters.substring(i,i+1)+letters.substring(j,j+1)+" "+bProbs[i][j]);
+				sum += bProbs[i][j];
+			}
+			System.out.println("Sum = "+sum);
+		}
     }
-    
-    /*
-    public static void readUnigramsAndBigrams() {
-    	File unigram = new File(UNIGRAM_FILE);
-    	File bigram = new File(BIGRAM_FILE);
-    	double[][] bigrams = new double[27][27];
-    	double[] unigrams = new double[27];
-    	double[][][] toReturn = new double[27][27][2];
-    	try {
-    		BufferedReader uinput = new BufferedReader(new FileReader(unigram));
-    		BufferedReader binput = new BufferedReader(new FileReader(bigram));
-    		int count = 0;
-    		String line = "";
-    		while ((line = binput.readLine()) != null) {
-    			String[] narray = line.split(" ");
-    			//System.out.println(count);
-    			//System.out.println(narray.length);
-    			for (int i = 0; i < narray.length; i++) {
-    				//System.out.println(i + ": " + Float.parseFloat(narray[i]));
-    				toReturn[i][count][1] = Float.parseFloat(narray[i]);
-    			}
-    			count++;
-    		}
-   	 		while ((line = uinput.readLine()) != null) {
-    			String[] narray = line.split(" ");
-    			for (int i = 0; i < narray.length; i++) {
-    				toReturn[i][i][0] = Float.parseFloat(narray[i]);
-    			}
-    		}
-    		uinput.close();
-   		 	binput.close();
-   		} catch (FileNotFoundException ex) {
-            System.out.println(ex.getMessage() + "unable to open file" + "unigrams.txt or bigrams.txt");
-            System.exit(0);
-    	} catch (IOException e) {
-            System.out.println(e.getMessage()); 
-        }
-        
-        for (int i = 0; i < 27; i++) {
-        	for (int j = 0; j < 27; j++) {
-        		//emit[i][j] = ((double)1)/27;
-        		bProbs[j][i] = toReturn[i][j][1];
-        	}
-        	uProbs[i] = toReturn[i][i][0];
-		} 
-    }
-    */
-    
+
     public static void readUnigramsAndBigrams() {
     	File unigram = new File(UNIGRAM_FILE);
     	File bigram = new File(BIGRAM_FILE);
@@ -530,10 +344,7 @@ public class Decrypt {
     		String line = "";
     		while ((line = binput.readLine()) != null) {
     			String[] narray = line.split(" ");
-    			//System.out.println(count);
-    			//System.out.println(narray.length);
     			for (int i = 0; i < narray.length; i++) {
-    				//System.out.println(i + ": " + Float.parseFloat(narray[i]));
     				bProbs[count][i] = Float.parseFloat(narray[i]);
     			}
     			count++;
@@ -580,15 +391,6 @@ public class Decrypt {
 			}
     	}
     	
-    	//System.out.println("SIZE " + args.length);
-        readUnigramsAndBigrams();
-    	//initEmits(new File(ENCRYPTED_FILE));
-    	
-    	//DEbuggIng
-    	//printEProbs();
-    	//printTProbs();
-    	//System.exit(0);
-    	
 		File encrypted = new File(ENCRYPTED_FILE);
 		String decryptedLine = "";
 		try {
@@ -596,62 +398,8 @@ public class Decrypt {
 			String line = "";
 			
 			line = enc.readLine();
-			partialDecryptions = decrypt(line);
-			System.out.println(partialDecryptions[10]);
-			decryptedLine = decryptForCL(line);
-			//System.out.println(decryptedLine);
-			/*			
-			int maxk = 50;
-			for (int k = 0; k < maxk; k++) {
-				for (int i = 0; i < 27; i++) for(int j = 0; j<27; j++)	counts[i][j] = 0;
-				double totalprob = 0;
-    			//while ((line = enc.readLine()) != null) {
-                  //  System.out.println("LINE LENGTH: " + line.length());
-                    
-                    for (int start = 0, len = line.length(); start < len; start += 100) {                    	
-                    	totalprob += fbpass(convert(line.substring(start, Math.min(len, start+100))));
-                    	 //break;//DEbuggING
-                    }	
-                    	
-    				double totalcount;
-    				for (int i = 0; i < 27; i++) {
-    					totalcount = 0;
-    					for (int j = 0; j < 27; j++) {
-    						totalcount += counts[i][j];
-    					}
-    					
-    					for (int j = 0; j < 27; j++) {
-    						//System.out.println("(" + j + ", " + i + "):\t" + counts[j][i]);
-    						emit[i][j] = counts[i][j] / totalcount; 
-    					}
-    				}
-    				
-    				//threshold
-    				double thresh = 1.0 - (.5*k)/(double)maxk;
-    				for (int i = 0; i < 27; i++) {
-    					for(int j = 0; j < 27; j++) {
-    						if(emit[i][j] > thresh) {
-    							for (int m = 0; m < 27; m++) {
-    								emit[i][m] = 0;
-    								emit[m][j] = 0;
-    							}
-    							emit[i][j]=1;
-    							decryptArr[j] = i;
-    						}
-    					}
-    				}
-    				
-    				for (int i = 0; i < 27; i++) {
-    					double x = 0;
-    					for (int j = 0; j < 27; j++) { x += emit[i][j]; } 
-    					for (int j = 0; j < 27; j++) { emit[i][j] /= x; }
-    				}
-    			//System.out.println(k + ":\t" + totalprob);
-    			
-    		}
-    		*/
-    		
-    		//printEProbs();
+			decryptedLine = decrypt(line, true)[num_passes];
+			
 			enc.close();
 		} catch (FileNotFoundException ex) {
         	System.out.println(ex.getMessage() + "unable to open file " + ENCRYPTED_FILE);
@@ -663,28 +411,9 @@ public class Decrypt {
         try {
     		FileWriter fstream = new FileWriter(new File(DECRYPT_TO));
     		BufferedWriter out = new BufferedWriter(fstream);
-    		
-    		BufferedReader in = new BufferedReader(new FileReader(encrypted));
-    		
-    		//printDecryptArr();
+
     		out.write(decryptedLine);
-    		/*
-    		String line;
-			while ((line = in.readLine()) != null) { 
-				//System.out.println(deconvert(line));
-				char nchar;
-				
-				for(int i = 0; i < line.length(); i++) {
-					//nchar = deconvert((char) decryptArr[(int)convert(line.charAt(i))]);
-					nchar = (char) decryptArr[(int) convert(line.charAt(i))];
-					//System.out.print(deconvert(nchar));
-					out.write(deconvert((char)nchar)); 
-				}
-				break;
-			}
-			*/
 			out.close();
-			in.close();
 		} catch (Exception e) {
         	System.err.println("Error: " + e.getMessage());
         }
