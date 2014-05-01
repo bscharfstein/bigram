@@ -157,18 +157,21 @@ public class Gui extends javax.swing.JDialog {
         int v = 0;
         
         try{
-            v = Integer.parseInt(cipherInteger.getText());
-            if (v < 0 || v > 26)
-                throw new IllegalArgumentException();
-
             String comboValue = cipherSelect.getSelectedItem().toString();
 
-            if (new String("Caesar").equals(comboValue) == true)
-                eText = Encrypt.shift(textToEncrypt.getText(), v);
-            else if (new String("Atbash").equals(comboValue) == true)
-                eText = Encrypt.atbash(textToEncrypt.getText(), v);
-            else
+            if (new String("Rando").equals(comboValue) == true)
                 eText = Encrypt.rando(textToEncrypt.getText());
+            else{
+                v = Integer.parseInt(cipherInteger.getText());
+                if (v < 0 || v > 26)
+                    throw new IllegalArgumentException();
+
+                if (new String("Caesar").equals(comboValue) == true)
+                    eText = Encrypt.shift(textToEncrypt.getText(), v);
+                else 
+                    eText = Encrypt.atbash(textToEncrypt.getText(), v);                
+            }
+
          } catch(Exception e) {
             eText = "Please enter an integer between 0 and 26.";
         }
