@@ -47,7 +47,8 @@ public class Decrypt {
     	System.out.println("line: " + line);
     	/*initialize the emission probabilities*/
     	initEmits(line);
-    	//printEProbs();
+        readUnigramsAndBigrams();
+
     	/* Run the algorithm to build the decrypt array */
     	int maxk = 50;
 		for (int k = 0; k < maxk; k++) {
