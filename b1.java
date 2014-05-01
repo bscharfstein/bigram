@@ -98,7 +98,7 @@ public class b1 {
             
             printArray(bigrams, "bigrams.txt");
             printArray(unigrams, "unigrams.txt");
-            System.out.println("nChar="+nChar);
+//            System.out.println("nChar="+nChar);
 
         }
     }

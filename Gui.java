@@ -29,6 +29,7 @@ public class Gui extends javax.swing.JDialog {
     public Gui(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        b1.main(new String[0]);
     }
 
 
