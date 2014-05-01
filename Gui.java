@@ -29,6 +29,7 @@ public class Gui extends javax.swing.JDialog {
     public Gui(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        b1.main(new String[0]);
     }
 
 
@@ -187,7 +188,7 @@ public class Gui extends javax.swing.JDialog {
     private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
         decryptedText.setText("Thinking...");
         decryptedText.update(decryptedText.getGraphics());
-        String[] decryptions = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()));
+        String[] decryptions = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()), false);
         for (int i = 0; i < 50; i++) {
             String toPrint = decryptions[i];
             if (toPrint == "") break;
