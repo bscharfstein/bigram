@@ -172,11 +172,10 @@ public class Gui extends javax.swing.JDialog {
             String toPrint = decryptions[i];
             if (toPrint == "") break;
             decryptedText.setText(toPrint);
-            decryptedText.updateUI();
-            decryptedText.revalidate();
-            decryptedText.validate();
+            decryptedText.update(decryptedText.getGraphics());
+            decryptedText.setCaretPosition(0);
             try {
-                Thread.sleep(50);
+                Thread.sleep(100);
             }
             catch(InterruptedException ex) {
                 Thread.currentThread().interrupt();
@@ -191,9 +190,7 @@ public class Gui extends javax.swing.JDialog {
 
     private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String eText = ""; // Encrypt.shift(textToEncrypt.getText(), 1);
-
         int v = 0;
-        
         try{
             String comboValue = cipherSelect.getSelectedItem().toString();
 
@@ -218,6 +215,7 @@ public class Gui extends javax.swing.JDialog {
 
         encryptedText.setText("");
         encryptedText.append(eText);
+        encryptedText.setCaretPosition(0);
     }
 
     private void textCopyButtonActionPerformed(java.awt.event.ActionEvent evt) {
