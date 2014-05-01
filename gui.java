@@ -66,6 +66,7 @@ public class Gui extends javax.swing.JDialog {
         textToEncrypt.setColumns(40);
         textToEncrypt.setRows(20);
         textToEncrypt.setText(merica);
+        textToEncrypt.setCaretPosition(0);
         textToEncrypt.setLineWrap(true);
         textToEncrypt.setWrapStyleWord(true);
         jScrollPane3.setViewportView(textToEncrypt);
@@ -193,7 +194,7 @@ public class Gui extends javax.swing.JDialog {
                 decryptedText.update(decryptedText.getGraphics());
                 decryptedText.setCaretPosition(0);
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                 }
                 catch(InterruptedException ex) {
                     Thread.currentThread().interrupt();
