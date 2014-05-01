@@ -156,36 +156,37 @@ public class Gui extends javax.swing.JDialog {
                 // .addContainerGap()
                 // .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1))
                 .addContainerGap(37, Short.MAX_VALUE)
                 )
         );
         pack();
 
-    }// </editor-fold>
+    }// </editold>
+    
+
+
 
     private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        decryptedText.setText("");
+        decryptedText.setText("Hello");
+        decryptedText.update(decryptedText.getGraphics());
         String[] decryptions = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()));
         for (int i = 0; i < 50; i++) {
             String toPrint = decryptions[i];
             if (toPrint == "") break;
-            decryptedText.setText(toPrint);
-            decryptedText.update(decryptedText.getGraphics());
-            decryptedText.setCaretPosition(0);
-            try {
-                Thread.sleep(100);
-            }
-            catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
+            if (toPrint.replaceAll("^\\s+", "").replaceAll("\\s+", "") != "") {
+                decryptedText.setText(toPrint);
+                decryptedText.update(decryptedText.getGraphics());
+                decryptedText.setCaretPosition(0);
+                try {
+                    Thread.sleep(100);
+                }
+                catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
-
-//
-//        String dText = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()));
-//        decryptedText.setText("");
-//        decryptedText.append(dText);
     }
 
     private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
