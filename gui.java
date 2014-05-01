@@ -165,7 +165,7 @@ public class Gui extends javax.swing.JDialog {
     }// </editor-fold>
 
     private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        String dText = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()));
+        String[] dText = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()));
         decryptedText.setText("");
         decryptedText.append(dText);
     }
