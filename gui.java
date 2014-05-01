@@ -23,6 +23,7 @@ public class Gui extends javax.swing.JDialog {
         initComponents();
     }
 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -154,9 +155,27 @@ public class Gui extends javax.swing.JDialog {
     }// </editor-fold>
 
     private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        String dText = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()));
         decryptedText.setText("");
-        decryptedText.append(dText);
+        String[] decryptions = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()));
+        for (int i = 0; i < 50; i++) {
+            String toPrint = decryptions[i];
+            if (toPrint == "") break;
+            decryptedText.setText(toPrint);
+            decryptedText.updateUI();
+            decryptedText.revalidate();
+            decryptedText.validate();
+            try {
+                Thread.sleep(50);
+            }
+            catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+//
+//        String dText = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()));
+//        decryptedText.setText("");
+//        decryptedText.append(dText);
     }
 
     private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
