@@ -41,6 +41,7 @@ public class Gui extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         decryptedText = new javax.swing.JTextArea();
         cipherSelect = new javax.swing.JComboBox();
+        textCopyButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -64,6 +65,13 @@ public class Gui extends javax.swing.JDialog {
         encryptButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 encryptButtonActionPerformed(evt);
+            }
+        });
+
+        textCopyButton.setText("Copy Text");
+        textCopyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textCopyButtonActionPerformed(evt);
             }
         });
 
@@ -98,10 +106,16 @@ public class Gui extends javax.swing.JDialog {
                         .addContainerGap()
                         .addComponent(jScrollPane1)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(textCopyButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(decryptButton))
                     .addComponent(textToDecrypt, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-                    .addComponent(decryptButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2))
+                    )
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -115,6 +129,7 @@ public class Gui extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(decryptButton)
                     .addComponent(encryptButton)
+                    .addComponent(textCopyButton)
                     .addComponent(cipherSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -133,9 +148,13 @@ public class Gui extends javax.swing.JDialog {
     }
 
     private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        String eText = encrypt.shift(textToEncrypt.getText(), 1);
+        String eText = Encrypt.shift(textToEncrypt.getText(), 1);
         encryptedText.setText("");
         encryptedText.append(eText);
+    }
+
+    private void textCopyButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        textToDecrypt.setText(encryptedText.getText());
     }
 
     /**
@@ -183,6 +202,7 @@ public class Gui extends javax.swing.JDialog {
     // Variables declaration - do not modify                     
     private javax.swing.JButton decryptButton;
     private javax.swing.JButton encryptButton;
+    private javax.swing.JButton textCopyButton;    
     private javax.swing.JComboBox cipherSelect;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

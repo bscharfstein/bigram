@@ -3,7 +3,7 @@ import java.util.regex.*;
 import java.util.AbstractCollection;
 import java.util.Random;
 
-public class encrypt {
+public class Encrypt {
 
 //  For all of these ciphers the capitalization invariant must
 //  be satisfied or else they break. We might want to fix that
