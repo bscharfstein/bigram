@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.Scanner;
 
+
 public class Gui extends javax.swing.JDialog {
 
     /**
@@ -29,6 +30,7 @@ public class Gui extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+
 
 
     /**
@@ -237,6 +239,7 @@ public class Gui extends javax.swing.JDialog {
 
     private void textCopyButtonActionPerformed(java.awt.event.ActionEvent evt) {
         textToDecrypt.setText(encryptedText.getText());
+        textToDecrypt.setCaretPosition(0);
     }
 
     /**
