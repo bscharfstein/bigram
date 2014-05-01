@@ -52,6 +52,7 @@ public class Decrypt {
     	int maxk = 50;
 		for (int k = 0; k < maxk; k++) {
 			for (int i = 0; i < 27; i++) {
+				decryptArr[i] = 0;
 				for(int j = 0; j<27; j++) {
 					counts[i][j] = 0;
 				}
@@ -97,13 +98,14 @@ public class Decrypt {
 			}
 			//System.out.println(k + ":\t" + totalprob);
 		}
+		printEProbs();
 		
 		/*Decrypt the string using the array, building a string to return*/
 		String decryptedLine = "";
 		for(int i = 0; i < line.length(); i++) {
 			decryptedLine += deconvert((char) decryptArr[(int) convert(line.charAt(i))]);
 		}
-		System.out.println(decryptedLine);
+		System.out.println("DecryptedLine: " + decryptedLine);
 		return decryptedLine;
     }
         
