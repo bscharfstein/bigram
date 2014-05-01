@@ -98,7 +98,7 @@ public class Gui extends javax.swing.JDialog {
         decryptedText.setEditable(false);
         jScrollPane2.setViewportView(decryptedText);
 
-        cipherSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Caesar", "Atbash", "Rando"}));
+        cipherSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rando", "Atbash", "Caesar"}));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
