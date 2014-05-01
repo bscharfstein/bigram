@@ -43,12 +43,17 @@ public class Gui extends javax.swing.JDialog {
         cipherSelect = new javax.swing.JComboBox();
         textCopyButton = new javax.swing.JButton();
         cipherInteger = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jScrollPane4 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        textToEncrypt.setColumns(40);
+        textToEncrypt.setRows(20);
         textToEncrypt.setText("textToEncrypt");
         textToEncrypt.setLineWrap(true);
         textToEncrypt.setWrapStyleWord(true);
+        jScrollPane3.setViewportView(textToEncrypt);
 
         decryptButton.setText("Decrypt");
         decryptButton.addActionListener(new java.awt.event.ActionListener() {
@@ -57,9 +62,12 @@ public class Gui extends javax.swing.JDialog {
             }
         });
 
+        textToDecrypt.setColumns(40);
+        textToDecrypt.setRows(20);
         textToDecrypt.setText("textToDecrypt");
         textToDecrypt.setLineWrap(true);
         textToDecrypt.setWrapStyleWord(true);
+        jScrollPane4.setViewportView(textToDecrypt);
 
 
         encryptButton.setText("Encrypt");
@@ -76,21 +84,21 @@ public class Gui extends javax.swing.JDialog {
             }
         });
 
-        encryptedText.setColumns(20);
-        encryptedText.setRows(5);
+        encryptedText.setColumns(40);
+        encryptedText.setRows(20);
         encryptedText.setLineWrap(true);
         encryptedText.setWrapStyleWord(true);
         encryptedText.setEditable(false);
         jScrollPane1.setViewportView(encryptedText);
 
-        decryptedText.setColumns(20);
-        decryptedText.setRows(5);
+        decryptedText.setColumns(40);
+        decryptedText.setRows(20);
         decryptedText.setLineWrap(true);
         decryptedText.setWrapStyleWord(true);
         decryptedText.setEditable(false);
         jScrollPane2.setViewportView(decryptedText);
 
-        cipherSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Caesar", "Atbash", "Rando"}));
+        cipherSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rando", "Atbash", "Caesar"}));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -236,6 +244,8 @@ public class Gui extends javax.swing.JDialog {
     private javax.swing.JTextField cipherInteger;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea encryptedText;
     private javax.swing.JTextArea decryptedText;
     private javax.swing.JTextArea textToEncrypt;
