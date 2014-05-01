@@ -102,19 +102,14 @@ public class Decrypt {
 			//threshold
 			double thresh = 1.0 - (.8*k)/(double)maxk;
 			
-			//partial Decryption array
-			int[] partwayDecryptedArr = new int[27];
-			
 			//boolean to check if the cipher has been found already
 			boolean allones = true;
 			for (int i = 0; i < 27; i++) {
 				double maxp = -1.0e64;
-				int maxj = 0;
 				for(int j = 0; j < 27; j++) {
 					double x = emit[i][j];
 					if (x>maxp) {
 						maxp=x;
-						maxj = j;
 					}
 					if(x > thresh) {
 						for (int m = 0; m < 27; m++) {
@@ -128,10 +123,10 @@ public class Decrypt {
 				if (maxp < thresh) {
 					allones = false;
 				}
-				partwayDecryptedArr[i] = maxj;
+				//System.out.println(i + ": " + partwayDecryptedArr[i]);
 			}
-			partwayDecryptions[k] = decryptArrayToString(line, partwayDecryptedArr);
-			
+			partwayDecryptions[k] = decryptArrayToString(line);
+			//System.exit(0);
 			
 			//if the cipher has been found, exit
 			if (allones && k != maxk - 1) {
@@ -165,7 +160,8 @@ public class Decrypt {
 		return partwayDecryptions;
     }
     
-    public static String decryptArrayToString(String line, int[] dArr) {
+    public static String decryptArrayToString(String line) {
+    	System.out.println(line.substring(0, 1000));
     	String decryptedLine = "";
 		for(int i = 0; i < line.length(); i++) {
 			decryptedLine += deconvert((char) decryptArr[(int) convert(line.charAt(i))]);
@@ -173,7 +169,7 @@ public class Decrypt {
 		//System.out.println("DecryptedLine: " + decryptedLine);
 		return decryptedLine;
     }
-        
+    
 	/*Decrypt function we use when running in the command line		*
 	 *(prints out emission probabilities during each pass through	*/
     public static String decryptForCL(String line) {
