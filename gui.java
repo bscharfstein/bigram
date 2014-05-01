@@ -12,6 +12,7 @@
 
 import java.util.Random;
 import javax.swing.JTextArea;
+import java.awt.*;
 
 public class Gui extends javax.swing.JDialog {
 
@@ -33,8 +34,10 @@ public class Gui extends javax.swing.JDialog {
     private void initComponents() {
 
         textToEncrypt = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
         decryptButton = new javax.swing.JButton();
         textToDecrypt = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
         encryptButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         encryptedText = new javax.swing.JTextArea();
@@ -43,8 +46,6 @@ public class Gui extends javax.swing.JDialog {
         cipherSelect = new javax.swing.JComboBox();
         textCopyButton = new javax.swing.JButton();
         cipherInteger = new javax.swing.JTextField();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jScrollPane4 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -105,6 +106,7 @@ public class Gui extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cipherSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -112,7 +114,8 @@ public class Gui extends javax.swing.JDialog {
                         .addComponent(cipherInteger, 10, 30, 30)
                         .addGap(18, 18, 18)
                         .addComponent(encryptButton))
-                    .addComponent(textToEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    //.addComponent(textToEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1)))
@@ -122,20 +125,25 @@ public class Gui extends javax.swing.JDialog {
                         .addComponent(textCopyButton)
                         .addGap(18, 18, 18)
                         .addComponent(decryptButton))
-                    .addComponent(textToDecrypt, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                    // .addComponent(textToDecrypt, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane2))
-                    )
-                .addContainerGap(37, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2)))
+                .addContainerGap(37, Short.MAX_VALUE)
+                )
         );
+
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textToEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textToDecrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    // .addComponent(textToEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    // .addComponent(textToDecrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane4))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(decryptButton)
@@ -144,13 +152,16 @@ public class Gui extends javax.swing.JDialog {
                     .addComponent(cipherInteger, 10, 30, 30)
                     .addComponent(cipherSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                // .addContainerGap()
+                // .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE)
+                )
         );
-
         pack();
+
     }// </editor-fold>
 
     private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,9 +245,10 @@ public class Gui extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+
     }
 
-    // Variables declaration - do not modify                     
+    // Variables declaration                   
     private javax.swing.JButton decryptButton;
     private javax.swing.JButton encryptButton;
     private javax.swing.JButton textCopyButton;    
@@ -250,5 +262,6 @@ public class Gui extends javax.swing.JDialog {
     private javax.swing.JTextArea decryptedText;
     private javax.swing.JTextArea textToEncrypt;
     private javax.swing.JTextArea textToDecrypt;
-    // End of variables declaration                   
+    // End of variables declaration     
 }
+
