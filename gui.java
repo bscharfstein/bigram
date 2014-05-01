@@ -152,12 +152,29 @@ public class Gui extends javax.swing.JDialog {
     }
 
     private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        String eText = Encrypt.shift(textToEncrypt.getText(), 1);
+        String eText = ""; // Encrypt.shift(textToEncrypt.getText(), 1);
 
+        int v = 0;
         
-        // try{  } catch(Exception e){}
+        try{
+            v = Integer.parseInt(cipherInteger.getText());
+            if (v < 0 || v > 26)
+                throw new IllegalArgumentException();
 
-        // Encrypt.shift(textToEncrypt.getText(), 1);
+            String comboValue = cipherSelect.getSelectedItem().toString();
+
+            if (new String("Caesar").equals(comboValue) == true)
+                eText = Encrypt.shift(textToEncrypt.getText(), v);
+            else if (new String("Atbash").equals(comboValue) == true)
+                eText = Encrypt.atbash(textToEncrypt.getText(), v);
+            else
+                eText = Encrypt.rando(textToEncrypt.getText());
+         } catch(Exception e) {
+            eText = "Please enter an integer between 0 and 26.";
+        }
+
+
+
         encryptedText.setText("");
         encryptedText.append(eText);
     }
