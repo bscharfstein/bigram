@@ -42,6 +42,7 @@ public class Gui extends javax.swing.JDialog {
         decryptedText = new javax.swing.JTextArea();
         cipherSelect = new javax.swing.JComboBox();
         textCopyButton = new javax.swing.JButton();
+        cipherInteger = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -100,6 +101,8 @@ public class Gui extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cipherSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(cipherInteger, 10, 30, 30)
+                        .addGap(18, 18, 18)
                         .addComponent(encryptButton))
                     .addComponent(textToEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -130,6 +133,7 @@ public class Gui extends javax.swing.JDialog {
                     .addComponent(decryptButton)
                     .addComponent(encryptButton)
                     .addComponent(textCopyButton)
+                    .addComponent(cipherInteger, 10, 30, 30)
                     .addComponent(cipherSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -149,6 +153,11 @@ public class Gui extends javax.swing.JDialog {
 
     private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String eText = Encrypt.shift(textToEncrypt.getText(), 1);
+
+        
+        // try{  } catch(Exception e){}
+
+        // Encrypt.shift(textToEncrypt.getText(), 1);
         encryptedText.setText("");
         encryptedText.append(eText);
     }
@@ -204,6 +213,7 @@ public class Gui extends javax.swing.JDialog {
     private javax.swing.JButton encryptButton;
     private javax.swing.JButton textCopyButton;    
     private javax.swing.JComboBox cipherSelect;
+    private javax.swing.JTextField cipherInteger;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea encryptedText;
