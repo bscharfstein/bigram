@@ -169,7 +169,7 @@ public class Gui extends javax.swing.JDialog {
 
 
     private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        decryptedText.setText("Hello");
+        decryptedText.setText("Thinking...");
         decryptedText.update(decryptedText.getGraphics());
         String[] decryptions = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()));
         for (int i = 0; i < 50; i++) {

@@ -161,11 +161,11 @@ public class Decrypt {
     }
     
     public static String decryptArrayToString(String line) {
-    	System.out.println(line.substring(0, 1000));
+//    	System.out.println(line.substring(0, 1000));
     	String decryptedLine = "";
 		for(int i = 0; i < line.length(); i++) {
-			decryptedLine += deconvert((char) decryptArr[(int) convert(line.charAt(i))]);
-		}
+            decryptedLine += deconvert((char) decryptArr[(int) convert(line.charAt(i))]);
+        }
 		//System.out.println("DecryptedLine: " + decryptedLine);
 		return decryptedLine;
     }
@@ -249,11 +249,11 @@ public class Decrypt {
 			
 			printEProbs();
 			System.out.println("Pass #" + k);
-			try {
-    			Thread.sleep(100);
-			} catch(InterruptedException ex) {
-    			Thread.currentThread().interrupt();
-			}
+//			try {
+//    			Thread.d(100);
+//			} catch(InterruptedException ex) {
+//    			Thread.currentThread().interrupt();
+//			}
 			//System.out.println(k + ":\t" + totalprob);
 		}
 		
