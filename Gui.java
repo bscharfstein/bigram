@@ -249,7 +249,6 @@ public class Gui extends javax.swing.JDialog {
             eText = "Please enter an integer between 0 and 26.";
         }
 
-
         encryptedText.setText("");
         encryptedText.append(eText);
         encryptedText.setCaretPosition(0);
