@@ -5,9 +5,9 @@ import java.util.Random;
 
 public class Encrypt {
 
-//  For all of these ciphers the capitalization invariant must
-//  be satisfied or else they break. We might want to fix that
-//  Generates normal caesar cipher
+    /*
+     * Applies a Caesar shift cipher
+     */ 
     public static String shift(String str, int offset) {
         str = clean(str);
         String nstr = "";
@@ -20,7 +20,9 @@ public class Encrypt {
         return nstr;
     }
 
-//  Generates an atbash cipher and then applies a caesar cipher after
+    /*
+     * Generates an atbash cipher, then applies a shift
+     */ 
     public static String atbash(String str, int offset) {
         str = clean(str);
         String nstr = "";
@@ -33,8 +35,11 @@ public class Encrypt {
         return nstr;
     }
 
-//  some code borrowed from http://www.java-forums.org/new-java/17317-very-simple-encryption.html
-//  Generates a random cipher
+
+    /*
+     * Code inspired by http://www.java-forums.org/new-java/17317-very-simple-encryption.html
+     * Generates a random 1-to-1 monoalphabetic substitution cipher
+     */ 
     public static String rando(String str) {
         str = clean(str);
         Random gen = new Random();
@@ -59,21 +64,26 @@ public class Encrypt {
             numo = (numo - 'A' + 1) % 27;
             nstr += randList[numo];
         }
-//        **for checking**
-//        System.out.println(nstr);
-//
-//        for(int i = 0; i < 27; i++)
-//        {
-//            System.out.println(chars[i] + " " + cryptList[i]);
-//        }
+        
+        /**for checking**
+
+        System.out.println(nstr);
+
+        for(int i = 0; i < 27; i++)
+        {
+            System.out.println(chars[i] + " " + cryptList[i]);
+        }
         return nstr;
+
+        */
 
     }
 
     public static String clean(String str) {
         String buffer = "";
         str = str.toUpperCase().trim();
-//      keep " ' " as part of the word as opposed to putting a space
+        
+        // Keep " ' " as part of the word as opposed to putting a space
         str = str.replaceAll("[']|[\u2019]", "");
         str = str.replaceAll("[^A-Z ]", " ");
         str = str.replaceAll("^\\s+", "");
@@ -81,6 +91,16 @@ public class Encrypt {
         buffer += str;
         return buffer;
     }
+
+
+
+
+    /*
+     * The below Main function technically never runs within the GUI,
+     * as the GUI encryption only calls upon the above functions individually.
+     * However, we leave it uncommented, as it is sometimes used for quick command-line
+     * checking of the encryption.
+     */
 
     public static void main(String args[]) {
         
@@ -102,28 +122,7 @@ public class Encrypt {
             }
             
             out1.write(buffer);
-//          shifts text by 1. Need to make this user customizable
             out2.write(shift(buffer, 1));
-    /*        
-            int j = 0;
-            for (int i = 0; i < buffer.length(); i++) {
-                if ((i-j+1 >= 10 && buffer.charAt(i) == ' ') || i == buffer.length()-1) {
-                        out1.write(buffer.substring(j,i) + "\n");
-                        out2.write(shift(buffer.substring(j,i),1) + "\n");
-                        j = i+1;
-               // }
-*/
-            /*
-                System.out.println(line.length());
-        		line = line.toUpperCase().trim();
-           		line = line.replaceAll("[^A-Z ]", " ");
-            	line = line.replaceAll("^\\s+", "");
-            	line = line.replaceAll("\\s+", " ");*/
-
-				/*if (line.length() > 0) {
-					out1.write(line);
-					out2.write(shift(line,1));
-				}*/
             
         	out1.close();
         	out2.close();
@@ -134,7 +133,5 @@ public class Encrypt {
             System.out.println(e.getMessage()); 
         }
         
-        //System.out.println("HELLO ZA");
-        //System.out.println(shift("HELLO ZA", 1));
     }
 }
