@@ -191,22 +191,33 @@ public class Gui extends javax.swing.JDialog {
     private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
         decryptedText.setText("Thinking...");
         decryptedText.update(decryptedText.getGraphics());
-        String[] decryptions = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()), false);
-        for (int i = 0; i < 50; i++) {
-            String toPrint = decryptions[i];
-            if (toPrint == "") break;
-            if (toPrint != " ") {
-                decryptedText.setText(toPrint);
-                decryptedText.update(decryptedText.getGraphics());
-                decryptedText.setCaretPosition(0);
-                try {
-                    Thread.sleep(100);
-                }
-                catch(InterruptedException ex) {
-                    Thread.currentThread().interrupt();
+        
+        // String str = textToDecrypt.getText();
+
+        if (textToDecrypt.getText().length() < 3000){
+            decryptedText.setText("Please enter a longer text.");
+            decryptedText.update(decryptedText.getGraphics());
+        }
+        else {
+            String[] decryptions = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()), false);
+            for (int i = 0; i < 50; i++) {
+                String toPrint = decryptions[i];
+                if (toPrint == "") break;
+                if (toPrint != " ") {
+                    decryptedText.setText(toPrint);
+                    decryptedText.update(decryptedText.getGraphics());
+                    decryptedText.setCaretPosition(0);
+                    try {
+                        Thread.sleep(250);
+                    }
+                    catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
                 }
             }
+
         }
+
     }
 
     private void encryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
