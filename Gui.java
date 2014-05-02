@@ -189,16 +189,19 @@ public class Gui extends javax.swing.JDialog {
 
 
     private void decryptButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        decryptedText.setForeground(Color.BLACK);
         decryptedText.setText("Thinking...");
         decryptedText.update(decryptedText.getGraphics());
         
         // String str = textToDecrypt.getText();
 
         if (textToDecrypt.getText().length() < 3000){
-            decryptedText.setText("Please enter a longer text.");
+            decryptedText.setForeground(Color.RED);
+            decryptedText.setText("Text must be at least 3000 characters in order to decrypt.");
             decryptedText.update(decryptedText.getGraphics());
         }
         else {
+            decryptedText.setForeground(Color.BLACK);
             String[] decryptions = Decrypt.decrypt(Encrypt.clean(textToDecrypt.getText()), false);
             for (int i = 0; i < 50; i++) {
                 String toPrint = decryptions[i];
