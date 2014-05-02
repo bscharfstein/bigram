@@ -5,7 +5,7 @@ JC = javac
 		$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-		b1.java \
+		ReadTrainingData.java \
 		Encrypt.java \
 		Decrypt.java \
 		Gui.java

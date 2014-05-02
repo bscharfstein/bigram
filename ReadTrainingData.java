@@ -61,15 +61,7 @@ public class ReadTrainingData {
                 BufferedReader input = new BufferedReader(new FileReader(txtfile));
                 String line;
                 while ((line = input.readLine()) != null) {
-                	//line = Encrypt.clean(line);
-                	line = line.toUpperCase().trim();
-                        //replace all non-letters with spaces
-                        line = line.replaceAll("[^A-Z ]", " ");
-                        //replace all spaces at the beginning of a line with nothing
-                        line = line.replaceAll("^\\s+", "");
-                        //replace all strings of spaces with one space
-                        line = line.replaceAll("\\s+", " ");
-                    
+                	line = Encrypt.clean(line);
                     for (int i = 0; i < line.length()-1; i++) {
                     	char cAti = line.charAt(i);
                     	char cAti1 = line.charAt(i+1);
@@ -100,7 +92,7 @@ public class ReadTrainingData {
 		for (int i = 0, len = unigrams.length; i < len; i++) {
 			unigrams[i] = ((double)unigrams[i])/(nChar);
 		}
-		printArray(unigrams, "unigrams2.txt");
+		printArray(unigrams, "unigrams.txt");
     	return unigrams;
     }
     
@@ -117,7 +109,7 @@ public class ReadTrainingData {
 				bigrams[i][j] = (float)bigrams[i][j]/rowsum;
 			}
 		}
-		printArray(bigrams, "bigrams2.txt");
+		printArray(bigrams, "bigrams.txt");
     	return bigrams;
     }
     

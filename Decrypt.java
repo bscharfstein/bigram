@@ -472,12 +472,11 @@ public class Decrypt {
 			
 			/*if we've already read in the probabilities from the training data, get those probabilities *
 		     *from the text files. If not, read the training data directly (bypass the text files).      */
-			/*if (new File("unigrams.txt").exists() && new File("bigrams.txt").exists())
+			if (new File("unigrams.txt").exists() && new File("bigrams.txt").exists())
 				readUnigramsAndBigramsFromFiles();
 			else {
 				readUnigramsAndBigrams();
-			}*/
-			readUnigramsAndBigrams();
+			}
 			initEmits(line);
 			
 			/* set the decryptedLine to be the entry in the  *
