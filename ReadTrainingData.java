@@ -100,7 +100,7 @@ public class ReadTrainingData {
 		for (int i = 0, len = unigrams.length; i < len; i++) {
 			unigrams[i] = ((double)unigrams[i])/(nChar);
 		}
-		printArray(unigrams, "unigrams2.txt");
+		printArray(unigrams, "unigrams.txt");
     	return unigrams;
     }
     
@@ -117,7 +117,7 @@ public class ReadTrainingData {
 				bigrams[i][j] = (float)bigrams[i][j]/rowsum;
 			}
 		}
-		printArray(bigrams, "bigrams2.txt");
+		printArray(bigrams, "bigrams.txt");
     	return bigrams;
     }
     
