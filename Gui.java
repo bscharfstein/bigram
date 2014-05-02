@@ -230,7 +230,7 @@ public class Gui extends javax.swing.JDialog {
         int v = 0;
         try{
             String comboValue = cipherSelect.getSelectedItem().toString();
-
+            encryptedText.setForeground(Color.BLACK);
             if (new String("Rando").equals(comboValue) == true)
                 eText = Encrypt.rando(textToEncrypt.getText());
             else{
@@ -245,9 +245,9 @@ public class Gui extends javax.swing.JDialog {
             }
 
          } catch(Exception e) {
+            encryptedText.setForeground(Color.RED);
             eText = "Please enter an integer between 0 and 26.";
         }
-
 
 
         encryptedText.setText("");
