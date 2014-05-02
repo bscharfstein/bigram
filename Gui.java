@@ -29,7 +29,10 @@ public class Gui extends javax.swing.JDialog {
     public Gui(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        b1.main(new String[0]);
+        //b1.main(new String[0]);
+        //Upon initializing the GUI this line will create the bigram and unigram probabilities
+        //directly from the files in the "Text" folder
+        Decrypt.readUnigramsAndBigrams();
     }
 
 

@@ -2,19 +2,18 @@ import java.io.*;
 import java.util.regex.*;
 import java.util.AbstractCollection;
 
-public class b1 {
+public class ReadTrainingData {
+	public static double[] unigrams = new double[27];
+	public static double[][] bigrams = new double[27][27];
+
 	//function for printing out the two dimensional bigram array to a given file
-    public static void printArray(int[][] array, String txtfile) {
+    public static void printArray(double[][] array, String txtfile) {
     	try {
     		FileWriter fstream = new FileWriter(txtfile);
     		BufferedWriter out = new BufferedWriter(fstream);
         	for (int i = 0; i<array.length; i++) {
-                double rowsum = 0;
-                for(int k = 0; k < array[0].length; k++) {
-                    rowsum += array[i][k];
-                }
            	 	for (int j = 0; j<array[0].length; j++) {
-           	     	out.write((float)array[i][j]/rowsum + " ");
+           	     	out.write((float)array[i][j] + " ");
            	 	}
            		out.write("\n");
         	}
@@ -24,14 +23,12 @@ public class b1 {
         }
     }
     
-    public static void printArray(int[] array, String txtfile) {
+    public static void printArray(double[] array, String txtfile) {
    		 try {
     		FileWriter fstream = new FileWriter(txtfile);
     		BufferedWriter out = new BufferedWriter(fstream);
-    		long nChar = 0;
-        	for (int i = 0; i < array.length; i++) {nChar += array[i];}
         	for (int i = 0; i < array.length; i++) {
-           		out.write((float)array[i]/nChar + " ");
+           		out.write((float)array[i] + " ");
         	}
         	out.close();
         } catch (Exception e) {
@@ -39,43 +36,33 @@ public class b1 {
         }
     }
     
-    public static void main(String args[]) {
-        File dir = new File("Text");
-        File [] files = dir.listFiles(new FilenameFilter() {
+    public static void readFiles(File directory) {
+    	File [] files = directory.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
 		return name.endsWith(".txt");
             }
         });
-
-		//create and initialize two dimensional array of zeroes
-        int[][] bigrams = new int[27][27];
-        for (int i = 0; i < bigrams.length; i++) {
-            for (int j = 0; j < bigrams[0].length; j++) {
+                
+        //initialize one dimensional unigram array of zeroes
+        for (int j = 0, len = unigrams.length; j < len; j++) {
+                unigrams[j] = 1;
+        }
+        
+        //initialize two dimensional array of zeroes
+        for (int i = 0, rowlen = bigrams.length; i < rowlen; i++) {
+            for (int j = 0, collen = bigrams[0].length; j < collen; j++) {
                 bigrams[i][j] = 1;
             }
         }
         
-        //create one dimensional unigram array of zeroes
-        int[] unigrams = new int[27];
-        for (int j = 0; j < unigrams.length; j++) {
-                unigrams[j] = 1;
-        }
-        
-        //go through all the files
         for (File txtfile : files) {
             long nChar = 0;
             try {
                 BufferedReader input = new BufferedReader(new FileReader(txtfile));
                 String line;
                 while ((line = input.readLine()) != null) {
-                        line = line.toUpperCase().trim();
-                        //replace all non-letters with spaces
-                        line = line.replaceAll("[^A-Z ]", " ");
-                        //replace all spaces at the beginning of a line with nothing
-                        line = line.replaceAll("^\\s+", "");
-                        //replace all strings of spaces with one space
-                        line = line.replaceAll("\\s+", " ");
+                	line = Encrypt.clean(line);
                     
                     for (int i = 0; i < line.length()-1; i++) {
                     	int b = (line.charAt(i)==32)? 0 :line.charAt(i)-64;
@@ -93,9 +80,39 @@ public class b1 {
             } catch (IOException e) {
                 System.out.println(e.getMessage()); 
             }
-            
-            printArray(bigrams, "bigrams.txt");
-            printArray(unigrams, "unigrams.txt");
-        }
+        } 
+    }
+    
+    public static double[] returnUnigrams() {
+    	readFiles(new File("Text"));
+		long nChar = 0;
+		for (int i = 0, len = unigrams.length; i < len; i++) {nChar += unigrams[i];}
+		for (int i = 0, len = unigrams.length; i < len; i++) {
+			unigrams[i] = (float)unigrams[i]/nChar;
+		}
+    	return unigrams;
+    }
+    
+    public static double[][] returnBigrams() {
+    	//if readFiles has yet to be called, call it
+    	if (bigrams[0][0] == 1) {
+    		readFiles(new File("Text"));
+    	}
+    	//turn the counts into probabilities
+    	for (int i = 0, rowlen = bigrams.length; i < rowlen; i++) {
+			double rowsum = 0;
+			for(int k = 0, collen = bigrams[0].length; k < collen; k++) {
+				rowsum += bigrams[i][k];
+			}
+			for (int j = 0, collen = bigrams[0].length; j < collen; j++) {
+				bigrams[i][j] = (float)bigrams[i][j]/rowsum;
+			}
+		}
+    	return bigrams;
+    }
+
+    public static void main(String args[]) {
+    	printArray(returnUnigrams(), "unigrams.txt");
+    	printArray(returnBigrams(), "bigrams.txt");
     }
 }

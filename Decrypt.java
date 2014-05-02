@@ -61,7 +61,7 @@ public class Decrypt {
     public static String[] decrypt(String line, boolean inCL) {
     	
     	/*Read in the unigram and bigram probabilities from the files*/
-        readUnigramsAndBigrams();
+        //readUnigramsAndBigrams();
     	
     	/*initialize the emission probabilities*/
     	initEmits(line);
@@ -332,7 +332,12 @@ public class Decrypt {
 		}
     }
 
-    public static void readUnigramsAndBigrams() {
+	public static void readUnigramsAndBigrams() {
+		uProbs = ReadTrainingData.returnUnigrams();
+		bProbs = ReadTrainingData.returnBigrams();
+	}
+	
+    public static void readUnigramsAndBigramsFromFiles() {
     	File unigram = new File(UNIGRAM_FILE);
     	File bigram = new File(BIGRAM_FILE);
     	try {
@@ -393,11 +398,18 @@ public class Decrypt {
 		String decryptedLine = "";
 		try {
 			BufferedReader enc = new BufferedReader(new FileReader(encrypted));
-			String line = "";
 			
-			line = enc.readLine();
-			decryptedLine = decrypt(line, true)[num_passes];
+			String line = enc.readLine();
 			
+			/*if we've already read in the probabilities from the training data, get those probabilities *
+		     *from the text files. If not, read the training data directly (bypass the text files).      */
+			if (new File("unigrams.txt").exists() && new File("bigrams.txt").exists())
+				readUnigramsAndBigramsFromFiles();
+			else {
+				readUnigramsAndBigrams();
+			}
+			
+			decryptedLine = decrypt(line, true)[num_passes-1];
 			enc.close();
 		} catch (FileNotFoundException ex) {
         	System.out.println(ex.getMessage() + "unable to open file " + ENCRYPTED_FILE);
