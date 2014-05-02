@@ -64,7 +64,7 @@ public class Encrypt {
             numo = (numo - 'A' + 1) % 27;
             nstr += randList[numo];
         }
-        
+
         /**for checking**
 
         System.out.println(nstr);
@@ -73,9 +73,10 @@ public class Encrypt {
         {
             System.out.println(chars[i] + " " + cryptList[i]);
         }
+        */
         return nstr;
 
-        */
+        
 
     }
 

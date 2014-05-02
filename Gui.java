@@ -273,8 +273,6 @@ public class Gui extends javax.swing.JDialog {
 
     }
 
-
-
     // The very simple functionality behind the text copy button
     private void textCopyButtonActionPerformed(java.awt.event.ActionEvent evt) {
         textToDecrypt.setText(encryptedText.getText());
